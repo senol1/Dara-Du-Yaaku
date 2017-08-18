@@ -1,0 +1,69 @@
+{% extends '::base.html.twig' %}
+{% block title %}Carte{% endblock %}
+{% block slide %}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
+          integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
+            integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
+            crossorigin=""></script>
+
+{% endblock %}
+{% block content %}
+    <div id="infoposition">infoposition</div>
+    <div id="map" class="map map-home" style="width: 100%; height: 500px"></div>
+
+    <script>
+
+        function maPosition(position) {
+            var infopos = "Position déterminée :\n";
+            infopos += "Latitude : "+position.coords.latitude +"\n";
+            infopos += "Longitude: "+position.coords.longitude+"\n";
+            infopos += "Altitude : "+position.coords.altitude +"\n";
+            document.getElementById("infoposition").innerHTML = infopos;
+        }
+
+        // Fonction de callback en cas d’erreur
+        function erreurPosition(error) {
+            var info = "Erreur lors de la géolocalisation : ";
+            switch (error.code) {
+                case error.TIMEOUT:
+                    info += "Timeout !";
+                    break;
+                case error.PERMISSION_DENIED:
+                    info += "Vous n’avez pas donné la permission";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    info += "La position n’a pu être déterminée";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    info += "Erreur inconnue";
+                    break;
+            }
+            document.getElementById("infoposition").innerHTML = info;
+        }
+
+            function geolocalisation(){
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(maPosition, erreurPosition,{maximumAge:600000,enableHighAccuracy:true});
+                } else {
+                    // Pas de support, proposer une alternative ?
+                }
+            };
+
+        //leafleft
+        var map = L.map('map').setView([14.764504200000001, -17.3660286], 13);
+
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([51.5, -0.09]).addTo(map)
+                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+                .openPopup();
+
+    </script>
+{% endblock %}
+

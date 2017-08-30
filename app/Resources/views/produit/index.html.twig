@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Produits list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Taille</th>
+                <th>Poids</th>
+                <th>Description</th>
+                <th>Prixinitiale</th>
+                <th>Prixpromo</th>
+                <th>Tauxreduction</th>
+                <th>Image</th>
+                <th>Datecreation</th>
+                <th>Dateexpiration</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for produit in produits %}
+            <tr>
+                <td><a href="{{ path('produit_show', { 'id': produit.id }) }}">{{ produit.id }}</a></td>
+                <td>{{ produit.nom }}</td>
+                <td>{{ produit.taille }}</td>
+                <td>{{ produit.poids }}</td>
+                <td>{{ produit.description }}</td>
+                <td>{{ produit.prixInitiale }}</td>
+                <td>{{ produit.prixPromo }}</td>
+                <td>{{ produit.tauxReduction }}</td>
+                <td>{{ produit.image }}</td>
+                <td>{{ produit.dateCreation }}</td>
+                <td>{{ produit.dateExpiration }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('produit_show', { 'id': produit.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('produit_edit', { 'id': produit.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('produit_new') }}">Create a new produit</a>
+        </li>
+    </ul>
+{% endblock %}

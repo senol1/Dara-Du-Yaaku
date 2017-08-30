@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Magasins list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Adressecomplete</th>
+                <th>Lattitude</th>
+                <th>Longitude</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Icone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for magasin in magasins %}
+            <tr>
+                <td><a href="{{ path('magasin_show', { 'id': magasin.id }) }}">{{ magasin.id }}</a></td>
+                <td>{{ magasin.nom }}</td>
+                <td>{{ magasin.adresse }}</td>
+                <td>{{ magasin.adresseComplete }}</td>
+                <td>{{ magasin.lattitude }}</td>
+                <td>{{ magasin.longitude }}</td>
+                <td>{{ magasin.description }}</td>
+                <td>{{ magasin.image }}</td>
+                <td>{{ magasin.icone }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('magasin_show', { 'id': magasin.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('magasin_edit', { 'id': magasin.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('magasin_new') }}">Create a new magasin</a>
+        </li>
+    </ul>
+{% endblock %}

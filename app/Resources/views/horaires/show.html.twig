@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <h1>Horaire</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ horaire.id }}</td>
+            </tr>
+            <tr>
+                <th>Jour</th>
+                <td>{{ horaire.jour }}</td>
+            </tr>
+            <tr>
+                <th>Debut</th>
+                <td>{% if horaire.debut %}{{ horaire.debut|date('H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Fin</th>
+                <td>{% if horaire.fin %}{{ horaire.fin|date('H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Creation</th>
+                <td>{{ horaire.creation }}</td>
+            </tr>
+            <tr>
+                <th>Statut</th>
+                <td>{% if horaire.statut %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('horaires_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('horaires_edit', { 'id': horaire.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

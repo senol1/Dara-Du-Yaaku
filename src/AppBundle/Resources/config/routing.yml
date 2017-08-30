@@ -1,0 +1,15 @@
+app_magasin:
+    resource: "@AppBundle/Resources/config/routing/magasin.yml"
+    prefix:   /magasin
+
+app_produit:
+    resource: "@AppBundle/Resources/config/routing/produit.yml"
+    prefix:   /produit
+
+app_categorie:
+    resource: "@AppBundle/Resources/config/routing/categorie.yml"
+    prefix:   /categorie
+
+app_horaires:
+    resource: "@AppBundle/Resources/config/routing/horaires.yml"
+    prefix:   /horaires

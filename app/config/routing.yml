@@ -11,14 +11,6 @@ app:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /
 
-index:
-    path:     /
-    defaults: { _controller: AppBundle:Default:index }
-
-geolocalisation:
-    path:     /carte
-    defaults: { _controller: AppBundle:Default:geolocalisation }
-
 # app/config/routing.yml
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"

@@ -6,23 +6,51 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"
           integrity="sha512-07I2e+7D8p6he1SIM+1twR5TIrhUQn9+I6yjqD53JQjFiMf8EtC93ty0/5vJTZGF8aAocvHYNEDJajGdNx1IsQ=="
           crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"
-            integrity="sha512-A7vV8IFfih/D732iSSKi20u/ooOfj/AGehOKq0f4vLT1Zr2Y+RX7C+w8A1gaSasGtRUZpF/NZgzSAu4/Gc41Lg=="
-            crossorigin=""></script>
 
 {% endblock %}
 {% block content %}
     <div id="infoposition">infoposition</div>
-    <div id="map" class="map map-home" style="width: 100%; height: 500px"></div>
+    <div id="carte" class="map map-home" style="width: 100%; height: 500px"></div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+            integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+            crossorigin=""></script>
+    <script src="{{ asset('bundles/app/js/underscore-min.js') }}"></script>
+
+    <script src="{{ asset('bundles/app/js/search.js') }}"></script>
 
     <script>
 
+        //leafleft
+        var map = L.map('carte').setView([14.764504200000001, -17.3660286], 13);
+
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v10/tiles/256/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: 'pk.eyJ1IjoibTNkb3VuZSIsImEiOiJjaXE4OXRmZ28wMDMyaHNrcWVtdnN3eW5nIn0.0I2nNxDYOLKkBZlJtw9Aew'
+        }).addTo(map);
+
+        L.control.search.keyup = function (e) {
+            console.log(e);
+        }
+
+        var searchControl = L.control.search({}).addTo(map);
+
+
         function maPosition(position) {
             var infopos = "Position déterminée :\n";
-            infopos += "Latitude : "+position.coords.latitude +"\n";
-            infopos += "Longitude: "+position.coords.longitude+"\n";
-            infopos += "Altitude : "+position.coords.altitude +"\n";
+            infopos += "Latitude : " + position.coords.latitude + "\n";
+            infopos += "Longitude: " + position.coords.longitude + "\n";
+            infopos += "Altitude : " + position.coords.altitude + "\n";
             document.getElementById("infoposition").innerHTML = infopos;
+            var latLng = L.latLng(position.coords.latitude, position.coords.longitude);
+            L.marker(latLng).addTo(map).bindPopup('Vous!')
+            map.flyTo(latLng);
+
         }
 
         // Fonction de callback en cas d’erreur
@@ -45,25 +73,19 @@
             document.getElementById("infoposition").innerHTML = info;
         }
 
-            function geolocalisation(){
-                if(navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(maPosition, erreurPosition,{maximumAge:600000,enableHighAccuracy:true});
-                } else {
-                    // Pas de support, proposer une alternative ?
-                }
-            };
+        function geolocalisation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(maPosition, erreurPosition, {
+                    maximumAge: 600000,
+                    enableHighAccuracy: true
+                });
+            } else {
+                // Pas de support, proposer une alternative ?
+            }
+        }
+        ;
 
-        //leafleft
-        var map = L.map('map').setView([14.764504200000001, -17.3660286], 13);
 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        L.marker([51.5, -0.09]).addTo(map)
-                .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                .openPopup();
 
     </script>
 {% endblock %}
-

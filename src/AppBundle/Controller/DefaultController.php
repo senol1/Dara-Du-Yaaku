@@ -21,4 +21,11 @@ class DefaultController extends Controller
         ));
     }
 
+    public function findmagAction()
+    {
+        return $this->render('AppBundle:Default:findmag.html.twig', array(
+            // ...
+        ));
+    }
+
 }

@@ -13,3 +13,7 @@ app_categorie:
 app_horaires:
     resource: "@AppBundle/Resources/config/routing/horaires.yml"
     prefix:   /horaires
+
+app_find_magasin:
+    path:    /preciser-ma-ville
+    defaults: { _controller: "AppBundle:Default:findmag" }
